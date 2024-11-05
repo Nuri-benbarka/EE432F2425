@@ -55,15 +55,15 @@ class DoublyLinkedList:
         for _ in range(index):
             current = current.next
 
-        if current.prev:
+        if current.prev and current.next:
             current.prev.next = current.next
-        else:
-            self.head = current.next
-
-        if current.next:
             current.next.prev = current.prev
+        elif current.next:
+            self.head = current.next
+            self.head.prev = None
         else:
             self.tail = current.prev
+            self.tail.next = None
 
         self.size -= 1
         return current.data
@@ -101,14 +101,17 @@ class DoublyLinkedList:
     def __len__(self):
         return self.size
 
-# Example usage:
-dll = DoublyLinkedList()
-dll.append(1)
-dll.append(2)
-dll.append(3)
-dll.append(4)
-print(dll)           # Output: 1 <-> 2 <-> 3 <-> 4
-dll.delete(1)     # Deletes element at index 1
-print(dll)           # Output: 1 <-> 3 <-> 4
-dll.pop()            # Removes and returns the last element
-print(dll)           # Output: 1 <-> 3
+if __name__ == "__main__":
+    # Example usage:
+    dll = DoublyLinkedList()
+    dll.append(1)
+    dll.append(2)
+    dll.append(3)
+    dll.append(4)
+    print(dll)           # Output: 1 <-> 2 <-> 3 <-> 4
+    dll.delete(1)     # Deletes element at index 1
+    print(dll)           # Output: 1 <-> 3 <-> 4
+    dll.pop()            # Removes and returns the last element
+    print(dll)           # Output: 1 <-> 3
+    print(len(dll))
+    print(dll.__len__())

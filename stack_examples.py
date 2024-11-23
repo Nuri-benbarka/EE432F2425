@@ -29,8 +29,8 @@ def PolishNotation(str):
         elif i == ")":
             while len(operator_stack) > 0 and operator_stack[-1] != "(":
                 op = operator_stack.pop()
-                if op != "(":
-                    result += op
+                #if op != "(":
+                result += op
         else:
             result += i
     while len(operator_stack)> 0:

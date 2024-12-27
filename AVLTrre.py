@@ -3,7 +3,7 @@ class Node:
         self.value = value
         self.left = None
         self.right = None
-        self.height = 0
+        self.height = 1
 
     def __repr__(self, level=0):
         ret = "\t" * level + repr(self.value) + "\n"
@@ -14,9 +14,16 @@ class Node:
         return ret
 
 
-class BST:
+class AVLTree:
     def __init__(self):
         self.root = None
+
+    def rotate_left(self,node):
+        B = node.right
+        y = B.left
+        node.right = y
+        B.left = node
+        return B
 
     def update_height(self,node):
         if node.left is None:
@@ -28,6 +35,19 @@ class BST:
         else:
             height_r = node.right.height
         return max(height_l,height_r) + 1
+
+    def get_height(self,node):
+        if node is not None:
+            return node.height
+        else:
+            return 0
+
+    def balance(self, node,value):
+        bf = self.get_height(node.left) - self.get_height(node.right)
+        if bf < -1 and value > node.right.value:
+            node = self.rotate_left(node)
+
+        return node
 
     def insert_rec(self,node,value):
         if value >= node.value:
@@ -42,6 +62,8 @@ class BST:
             else:
                 self.insert_rec(node.left,value)
                 node.left.height = self.update_height(node.left)
+        node = self.balance(node, value)
+
 
 
     def insert(self, value):
@@ -148,39 +170,40 @@ class BST:
 
 
 
-my_tree = BST()
+my_tree = AVLTree()
+my_tree.insert(0)
 my_tree.insert(5)
-my_tree.insert(3)
-my_tree.insert(2)
-my_tree.insert(1)
-my_tree.insert(4)
-my_tree.insert(7)
-my_tree.insert(6)
-my_tree.insert(8)
-my_tree.insert(12)
+my_tree.insert(10)
 print(my_tree)
-print(my_tree.search(5))
-print(my_tree.search(12))
-print(my_tree.search(4))
-print(my_tree.search(55))
-print(my_tree.search(-5))
-my_tree.delete(12)
-my_tree.delete(2)
-my_tree.delete(5)
-print(my_tree)
-
-for item in my_tree.BFS():
-    print(item, end=" ")
-
-print(" ")
-for item in my_tree.inorder():
-    print(item, end=" ")
-
-print(" ")
-for item in my_tree.preorder():
-    print(item, end=" ")
-
-print(" ")
-for item in my_tree.postorder():
-    print(item, end=" ")
-
+# my_tree.insert(1)
+# my_tree.insert(4)
+# my_tree.insert(7)
+# my_tree.insert(6)
+# my_tree.insert(8)
+# my_tree.insert(12)
+# print(my_tree)
+# print(my_tree.search(5))
+# print(my_tree.search(12))
+# print(my_tree.search(4))
+# print(my_tree.search(55))
+# print(my_tree.search(-5))
+# my_tree.delete(12)
+# my_tree.delete(2)
+# my_tree.delete(5)
+# print(my_tree)
+#
+# for item in my_tree.BFS():
+#     print(item, end=" ")
+#
+# print(" ")
+# for item in my_tree.inorder():
+#     print(item, end=" ")
+#
+# print(" ")
+# for item in my_tree.preorder():
+#     print(item, end=" ")
+#
+# print(" ")
+# for item in my_tree.postorder():
+#     print(item, end=" ")
+#
